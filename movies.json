@@ -1,0 +1,65 @@
+[
+  {
+    "title": "The Matrix",
+    "dates": [
+      {
+        "date": "25-12-2023",
+        "reservedSeats": [
+          2,
+          5,
+          11
+        ]
+      },
+      {
+        "date": "26-12-2023",
+        "reservedSeats": [
+          3,
+          6,
+          13
+        ]
+      }
+    ]
+  },
+  {
+    "title": "The Godfather",
+    "dates": [
+      {
+        "date": "03-01-2024",
+        "reservedSeats": [
+          1,
+          7,
+          15
+        ]
+      },
+      {
+        "date": "04-01-2024",
+        "reservedSeats": [
+          2,
+          4,
+          12
+        ]
+      }
+    ]
+  },
+  {
+    "title": "The Shawshank Redemption",
+    "dates": [
+      {
+        "date": "03-01-2024",
+        "reservedSeats": [
+          1,
+          7,
+          15
+        ]
+      },
+      {
+        "date": "04-01-2024",
+        "reservedSeats": [
+          2,
+          4,
+          12
+        ]
+      }
+    ]
+  }
+]
