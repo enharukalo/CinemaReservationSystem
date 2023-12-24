@@ -1,4 +1,4 @@
-package edu.estu;
+package edu.estu.model;
 
 import java.util.ArrayList;
 import java.util.List;

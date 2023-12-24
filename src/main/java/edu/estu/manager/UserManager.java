@@ -1,9 +1,11 @@
-package edu.estu;
+package edu.estu.manager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
+import edu.estu.CinemaReservationCLI;
+import edu.estu.model.User;
 import org.fusesource.jansi.Ansi;
 
 import java.io.*;
@@ -22,7 +24,7 @@ public class UserManager {
     private static final Scanner scanner = new Scanner(System.in);
     private static final Gson gson = new Gson();
 
-    static void register() {
+    public static void register() {
         System.out.print("Enter your username: ");
         String username = scanner.next();
         System.out.print("Enter your password: ");
@@ -53,7 +55,7 @@ public class UserManager {
         CinemaReservationCLI.displayMainMenu();
     }
 
-    static void login() {
+    public static void login() {
         Path usersFilePath = Paths.get(USERS_JSON);
         if (!Files.exists(usersFilePath)) {
             showMessage("Users file not found. Please register first.", Ansi.Color.RED);
