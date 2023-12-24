@@ -10,7 +10,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
+
+import static edu.estu.CinemaReservationCLI.showMessage;
 
 public class ReservationManager {
     private static final String MOVIES_JSON = "movies.json";
@@ -35,35 +38,56 @@ public class ReservationManager {
     static void makeReservation() throws IOException {
         List<Movie> movies = readMovies();
         Movie selectedMovie = selectMovie(movies);
-        CinemaReservationCLI.showMessage("You have selected: " + selectedMovie.getTitle(), Ansi.Color.GREEN);
+        showMessage("You have selected: " + selectedMovie.getTitle(), Ansi.Color.GREEN);
 
         int selectedDateIndex = selectDate(selectedMovie);
         List<Integer> reservedSeats = selectedMovie.getDates().get(selectedDateIndex).getReservedSeats();
 
-        CinemaReservationCLI.showMessage("Available seats (1-20) - Reserved seats: " + reservedSeats, Ansi.Color.YELLOW);
+        showMessage("Available seats (1-20) - Reserved seats: " + reservedSeats, Ansi.Color.YELLOW);
 
         int seatNumber = selectSeat();
 
         while (seatNumber < 1 || seatNumber > 20) {
-            CinemaReservationCLI.showMessage("Invalid seat number. Please choose again.", Ansi.Color.RED);
+            showMessage("Invalid seat number. Please choose again.", Ansi.Color.RED);
             seatNumber = selectSeat();
         }
 
         while (reservedSeats.contains(seatNumber)) {
-            CinemaReservationCLI.showMessage("Seat number " + seatNumber + " is already reserved. Please choose another seat.", Ansi.Color.RED);
+            showMessage("Seat number " + seatNumber + " is already reserved. Please choose another seat.", Ansi.Color.RED);
             seatNumber = selectSeat();
         }
 
-        reservedSeats.add(seatNumber);
+        // Insert the seat number in the reserved seats list in sorted order
+        int insertIndex = Collections.binarySearch(reservedSeats, seatNumber);
+        insertIndex = (insertIndex < 0) ? -insertIndex - 1 : insertIndex;
+        reservedSeats.add(insertIndex, seatNumber);
         writeMovies(movies);
 
-        CinemaReservationCLI.showMessage("Reservation successful! Seat number " + seatNumber + " is reserved for you.", Ansi.Color.GREEN);
+        String movieTitle = selectedMovie.getTitle();
+        String date = selectedMovie.getDates().get(selectedDateIndex).getDate();
+        Reservation reservation = new Reservation(movieTitle, date, seatNumber);
+        CinemaReservationCLI.currentUser.getReservations().add(reservation);
+
+        try {
+            List<User> users = UserManager.readUsersFromJSON();
+            for (int i = 0; i < users.size(); i++) {
+                if (users.get(i).getUsername().equals(CinemaReservationCLI.currentUser.getUsername())) {
+                    users.set(i, CinemaReservationCLI.currentUser);
+                    break;
+                }
+            }
+            UserManager.writeUsersToJSON(users);
+        } catch (IOException e) {
+            showMessage("An error occurred while trying to update user data. Error details: " + e.getMessage(), Ansi.Color.RED);
+        }
+
+        showMessage("Reservation successful! Seat number " + seatNumber + " is reserved for you.", Ansi.Color.GREEN);
     }
 
 
     private static Movie selectMovie(List<Movie> movies) {
         for (int i = 0; i < movies.size(); i++) {
-            CinemaReservationCLI.showMessage((i + 1) + ". " + movies.get(i).getTitle(), Ansi.Color.YELLOW);
+            showMessage((i + 1) + ". " + movies.get(i).getTitle(), Ansi.Color.YELLOW);
         }
 
         int movieNumber = CinemaReservationCLI.getIntInput();
@@ -72,19 +96,19 @@ public class ReservationManager {
 
     private static int selectDate(Movie movie) {
         for (int i = 0; i < movie.getDates().size(); i++) {
-            CinemaReservationCLI.showMessage((i + 1) + ". " + movie.getDates().get(i).getDate(), Ansi.Color.YELLOW);
+            showMessage((i + 1) + ". " + movie.getDates().get(i).getDate(), Ansi.Color.YELLOW);
         }
 
         int dateNumber = CinemaReservationCLI.getIntInput();
         if (dateNumber < 1 || dateNumber > movie.getDates().size()) {
-            CinemaReservationCLI.showMessage("Invalid date number. Please choose again.", Ansi.Color.RED);
+            showMessage("Invalid date number. Please choose again.", Ansi.Color.RED);
             dateNumber = CinemaReservationCLI.getIntInput();
         }
         return dateNumber - 1;
     }
 
     private static int selectSeat() {
-        CinemaReservationCLI.showMessage("Please select a seat number (1-20): ", Ansi.Color.CYAN);
+        showMessage("Please select a seat number (1-20): ", Ansi.Color.CYAN);
         return CinemaReservationCLI.getIntInput();
     }
 }
