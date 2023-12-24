@@ -1,5 +1,8 @@
-edu\estu\app\CinemaReservationCLI$1.class
-edu\estu\app\CinemaReservationCLI.class
-edu\estu\app\MovieDate.class
-edu\estu\app\Reservation.class
-edu\estu\app\Movie.class
+edu\estu\ReservationManager.class
+edu\estu\CinemaReservationCLI.class
+edu\estu\ReservationManager$1.class
+edu\estu\MovieDate.class
+edu\estu\Reservation.class
+edu\estu\UserManager.class
+edu\estu\Movie.class
+edu\estu\User.class

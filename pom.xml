@@ -4,7 +4,7 @@
             xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                                 http://maven.apache.org/xsd/maven-4.0.0.xsd">
         <modelVersion>4.0.0</modelVersion>
-        <groupId>edu.estu.app</groupId>
+        <groupId>edu.estu</groupId>
         <artifactId>CinemaReservationSystem</artifactId>
         <version>1.0</version>
         <properties>
@@ -35,7 +35,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>edu.estu.app.CinemaReservationCLI</mainClass>
+                            <mainClass>edu.estu.CinemaReservationCLI</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -46,9 +46,10 @@
                 <version>3.5.1</version>
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <shadedArtifactAttached>false</shadedArtifactAttached>
                     <transformers>
                         <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>edu.estu.app.CinemaReservationCLI</mainClass>
+                            <mainClass>edu.estu.CinemaReservationCLI</mainClass>
                         </transformer>
                     </transformers>
                 </configuration>
