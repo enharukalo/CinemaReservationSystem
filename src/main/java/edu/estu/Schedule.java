@@ -19,4 +19,8 @@ public class Schedule {
         return reservedSeats;
     }
 
+    public void setReservedSeats(List<Integer> reservedSeats) {
+        this.reservedSeats = reservedSeats;
+    }
+
 }

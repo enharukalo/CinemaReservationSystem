@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -22,10 +23,21 @@ public class ReservationManager {
     private static final Scanner scanner = new Scanner(System.in);
 
     private static List<Movie> readMovies() throws FileNotFoundException {
-        TypeToken<List<Movie>> token = new TypeToken<>() {
-        };
+        TypeToken<List<Movie>> token = new TypeToken<>() {};
         try (FileReader reader = new FileReader(MOVIES_JSON)) {
-            return gson.fromJson(reader, token.getType());
+            List<Movie> movies = gson.fromJson(reader, token.getType());
+
+            // Check and initialize reservedSeats list if it is missing
+            for (Movie movie : movies) {
+                if (movie.getDates() != null) {
+                    for (Schedule schedule : movie.getDates()) {
+                        if (schedule.getReservedSeats() == null) {
+                            schedule.setReservedSeats(new ArrayList<>());
+                        }
+                    }
+                }
+            }
+            return movies;
         } catch (IOException e) {
             throw new FileNotFoundException(e.getMessage());
         }
@@ -237,6 +249,19 @@ public class ReservationManager {
         if (confirmationChoice == 1) {
             List<Reservation> userReservations = currentUser.getReservations();
             userReservations.remove(reservation);
+
+            // Remove the reserved seat from the corresponding schedule
+            List<Movie> movies = readMovies();
+            for (Movie movie : movies) {
+                for (Schedule schedule : movie.getDates()) {
+                    if (schedule.getDate().equals(reservation.getDate())) {
+                        schedule.getReservedSeats().remove(Integer.valueOf(reservation.getSeatNumber()));
+                        break;
+                    }
+                }
+            }
+
+            writeMovies(movies); // Save changes to movies.json
             updateUsersJSON(); // Save changes to users.json
 
             showMessage("Reservation deleted successfully!", Ansi.Color.GREEN);
