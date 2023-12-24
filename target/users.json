@@ -12,6 +12,11 @@
         "movieTitle": "The Matrix",
         "date": "25-12-2023",
         "seatNumber": 3
+      },
+      {
+        "movieTitle": "The Matrix",
+        "date": "25-12-2023",
+        "seatNumber": 4
       }
     ]
   }

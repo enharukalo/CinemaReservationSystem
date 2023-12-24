@@ -26,7 +26,4 @@ public class User {
         return reservations;
     }
 
-    public void addReservation(Reservation reservation) {
-        this.reservations.add(reservation);
-    }
 }
