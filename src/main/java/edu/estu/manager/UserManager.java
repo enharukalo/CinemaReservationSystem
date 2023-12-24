@@ -8,7 +8,9 @@ import edu.estu.CinemaReservationCLI;
 import edu.estu.model.User;
 import org.fusesource.jansi.Ansi;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

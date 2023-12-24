@@ -28,7 +28,8 @@ public class ReservationManager {
     private static final Scanner scanner = new Scanner(System.in);
 
     private static List<Movie> readMovies() throws IOException {
-        TypeToken<List<Movie>> token = new TypeToken<>() {};
+        TypeToken<List<Movie>> token = new TypeToken<>() {
+        };
 
         try (FileReader reader = new FileReader(MOVIES_JSON)) {
             List<Movie> movies = gson.fromJson(reader, token.getType());
@@ -62,7 +63,7 @@ public class ReservationManager {
         List<Movie> movies = readMovies();
 
         if (movies.isEmpty()) {
-            showMessage("Currently, there are no movies. Please come back later.", Ansi.Color.YELLOW);
+            showMessage("Currently, there are no movies. Please come back later.", Ansi.Color.RED);
             displayReservationMenu();  // Or handle the situation accordingly
             return;
         }
@@ -76,6 +77,10 @@ public class ReservationManager {
         showMessage("Available seats (1-20) - Reserved seats: " + reservedSeats, Ansi.Color.YELLOW);
 
         int seatNumber = selectSeat();
+
+        if (seatNumber == 0) {
+            displayReservationMenu();
+        }
 
         while (seatNumber < 1 || seatNumber > 20) {
             showMessage("Invalid seat number. Please choose again.", Ansi.Color.RED);
@@ -105,12 +110,18 @@ public class ReservationManager {
     }
 
 
-    private static Movie selectMovie(List<Movie> movies) {
+    private static Movie selectMovie(List<Movie> movies) throws IOException {
         for (int i = 0; i < movies.size(); i++) {
             showMessage((i + 1) + ". " + movies.get(i).getTitle(), Ansi.Color.YELLOW);
         }
 
         int movieNumber = CinemaReservationCLI.getIntInput();
+
+        while (movieNumber < 1 || movieNumber > movies.size()) {
+            showMessage("Invalid movie number. Please choose again.", Ansi.Color.RED);
+            movieNumber = CinemaReservationCLI.getIntInput();
+        }
+
         return movies.get(movieNumber - 1);
     }
 
@@ -120,10 +131,12 @@ public class ReservationManager {
         }
 
         int dateNumber = CinemaReservationCLI.getIntInput();
-        if (dateNumber < 1 || dateNumber > movie.getDates().size()) {
+
+        while (dateNumber < 1 || dateNumber > movie.getDates().size()) {
             showMessage("Invalid date number. Please choose again.", Ansi.Color.RED);
             dateNumber = CinemaReservationCLI.getIntInput();
         }
+
         return dateNumber - 1;
     }
 
@@ -136,10 +149,10 @@ public class ReservationManager {
         List<Reservation> userReservations = currentUser.getReservations();
 
         if (userReservations.isEmpty()) {
-            showMessage("You don't have any reservations yet.", Ansi.Color.YELLOW);
+            showMessage("You don't have any reservations yet.", Ansi.Color.RED);
             displayReservationMenu();
         } else {
-            showMessage("Your Reservations:", Ansi.Color.YELLOW);
+            showMessage("Your reservations:", Ansi.Color.YELLOW);
             for (int i = 0; i < userReservations.size(); i++) {
                 Reservation reservation = userReservations.get(i);
                 showMessage((i + 1) + ". Movie: " + reservation.getMovieTitle() +
@@ -152,13 +165,12 @@ public class ReservationManager {
                 }
             }
 
-            // Add go back to the end of the reservations list
-            int lastIndex = userReservations.size() + 1;
-            showMessage((lastIndex) + ". Go Back", Ansi.Color.YELLOW);
+            // Add an option to go back at the end of the list
+            showMessage((userReservations.size() + 1) + ". Go back", Ansi.Color.YELLOW);
 
             int choice = getIntInput();
 
-            if (choice == lastIndex) {
+            if (choice == userReservations.size() + 1) {
                 displayReservationMenu();
             } else if (choice > 0 && choice <= userReservations.size()) {
                 reviewReservation(userReservations.get(choice - 1));
@@ -177,7 +189,7 @@ public class ReservationManager {
 
         if (reservation.getReview() != null && !reservation.getReview().isEmpty()) {
             showMessage("Your review: " + reservation.getReview(), Ansi.Color.YELLOW);
-            showMessage("1. Edit Review\n2. Delete Review\n3. Delete Reservation\n4. Go Back", Ansi.Color.YELLOW);
+            showMessage("1. Edit review\n2. Delete review\n3. Delete reservation\n4. Go back", Ansi.Color.YELLOW);
 
             int choice = CinemaReservationCLI.getIntInput();
 
@@ -200,7 +212,7 @@ public class ReservationManager {
                     break;
             }
         } else {
-            showMessage("1. Add Review\n2. Delete Reservation\n3. Go Back", Ansi.Color.YELLOW);
+            showMessage("1. Add review\n2. Delete reservation\n3. Go back", Ansi.Color.YELLOW);
 
             int choice = CinemaReservationCLI.getIntInput();
 
@@ -224,6 +236,11 @@ public class ReservationManager {
     private static void addReview(Reservation reservation) throws IOException {
         showMessage("Enter your review for the reservation:", Ansi.Color.YELLOW);
         String review = scanner.nextLine();
+
+        if (review.isEmpty()) {
+            showMessage("Review addition canceled.", Ansi.Color.RED);
+            reviewReservation(reservation);
+        }
 
         reservation.setReview(review);
         updateUsersJSON(); // Save changes to users.json
@@ -255,7 +272,7 @@ public class ReservationManager {
     }
 
     private static void deleteReview(Reservation reservation) throws IOException {
-        showMessage("Are you sure you want to delete this review?\n1. Yes\n2. No", Ansi.Color.YELLOW);
+        showMessage("Are you sure you want to delete this review?\n1. Yes\n2. No", Ansi.Color.CYAN);
 
         int confirmationChoice = getIntInput();
 
@@ -266,7 +283,7 @@ public class ReservationManager {
             showMessage("Review deleted successfully!", Ansi.Color.GREEN);
             listReservations();
         } else if (confirmationChoice == 2) {
-            showMessage("Review deletion canceled.", Ansi.Color.YELLOW);
+            showMessage("Review deletion canceled.", Ansi.Color.RED);
             listReservations();
         } else {
             showMessage("Invalid option. Please choose again.", Ansi.Color.RED);
@@ -300,7 +317,7 @@ public class ReservationManager {
             showMessage("Reservation deleted successfully!", Ansi.Color.GREEN);
             listReservations();
         } else if (confirmationChoice == 2) {
-            showMessage("Reservation deletion canceled.", Ansi.Color.YELLOW);
+            showMessage("Reservation deletion canceled.", Ansi.Color.RED);
             listReservations();
         } else {
             showMessage("Invalid option. Please choose again.", Ansi.Color.RED);
