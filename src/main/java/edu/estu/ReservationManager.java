@@ -117,6 +117,11 @@ public class ReservationManager {
                 showMessage((i + 1) + ". Movie: " + reservation.getMovieTitle() +
                         ", Date: " + reservation.getDate() +
                         ", Seat Number: " + reservation.getSeatNumber(), Ansi.Color.YELLOW);
+
+                // Check if the reservation has a review
+                if (reservation.getReview() != null && !reservation.getReview().isEmpty()) {
+                    showMessage("   - Review: " + reservation.getReview(), Ansi.Color.YELLOW);
+                }
             }
 
             // Add go back to the end of the reservations list
@@ -137,23 +142,49 @@ public class ReservationManager {
     }
 
     private static void reviewReservation(Reservation reservation) throws IOException {
-        showMessage("1. Add Review\n2. Edit Review\n3. Go Back", Ansi.Color.YELLOW);
-        int choice = CinemaReservationCLI.getIntInput();
+        showMessage("Your reservation details:", Ansi.Color.YELLOW);
+        showMessage("Movie: " + reservation.getMovieTitle() +
+                ", Date: " + reservation.getDate() +
+                ", Seat Number: " + reservation.getSeatNumber(), Ansi.Color.YELLOW);
 
-        switch (choice) {
-            case 1:
-                addReview(reservation);
-                break;
-            case 2:
-                editReview(reservation);
-                break;
-            case 3:
-                listReservations();
-                break;
-            default:
-                showMessage("Invalid option. Please choose again.", Ansi.Color.RED);
-                reviewReservation(reservation);
-                break;
+        if (reservation.getReview() != null && !reservation.getReview().isEmpty()) {
+            showMessage("Your review: " + reservation.getReview(), Ansi.Color.YELLOW);
+            showMessage("1. Edit Review\n2. Delete Review\n3. Go Back", Ansi.Color.YELLOW);
+
+            int choice = CinemaReservationCLI.getIntInput();
+
+            switch (choice) {
+                case 1:
+                    editReview(reservation);
+                    break;
+                case 2:
+                    deleteReview(reservation);
+                    break;
+                case 3:
+                    listReservations();
+                    break;
+                default:
+                    showMessage("Invalid option. Please choose again.", Ansi.Color.RED);
+                    reviewReservation(reservation);
+                    break;
+            }
+        } else {
+            showMessage("1. Add Review\n2. Go Back", Ansi.Color.YELLOW);
+
+            int choice = CinemaReservationCLI.getIntInput();
+
+            switch (choice) {
+                case 1:
+                    addReview(reservation);
+                    break;
+                case 2:
+                    listReservations();
+                    break;
+                default:
+                    showMessage("Invalid option. Please choose again.", Ansi.Color.RED);
+                    reviewReservation(reservation);
+                    break;
+            }
         }
     }
 
@@ -184,6 +215,15 @@ public class ReservationManager {
             listReservations();
         }
     }
+
+    private static void deleteReview(Reservation reservation) throws IOException {
+        reservation.setReview(null);
+        updateUsersJSON(); // Save changes to users.json
+
+        showMessage("Review deleted successfully!", Ansi.Color.GREEN);
+        listReservations();
+    }
+
 
     private static void updateUsersJSON() {
         try {

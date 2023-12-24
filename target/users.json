@@ -29,5 +29,17 @@
         "seatNumber": 1
       }
     ]
+  },
+  {
+    "username": "enhar2",
+    "password": "enhar2",
+    "reservations": [
+      {
+        "movieTitle": "The Matrix",
+        "date": "25-12-2023",
+        "seatNumber": 6,
+        "review": "It was nice movie."
+      }
+    ]
   }
 ]
