@@ -59,7 +59,7 @@ public class CinemaReservationCLI {
                 }
                 break;
             case 2:
-                // listReservations();
+                ReservationManager.listReservations();
                 break;
             case 3:
                 // cancelReservation();

@@ -15,15 +15,7 @@ public class Movie {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public List<Schedule> getDates() {
         return dates;
-    }
-
-    public void setDates(List<Schedule> dates) {
-        this.dates = dates;
     }
 }

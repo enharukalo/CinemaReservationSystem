@@ -12,12 +12,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
-import static edu.estu.CinemaReservationCLI.showMessage;
+import static edu.estu.CinemaReservationCLI.*;
 
 public class ReservationManager {
     private static final String MOVIES_JSON = "movies.json";
     private static final Gson gson = new Gson();
+    private static final Scanner scanner = new Scanner(System.in);
 
     private static List<Movie> readMovies() throws FileNotFoundException {
         TypeToken<List<Movie>> token = new TypeToken<>() {
@@ -66,22 +68,12 @@ public class ReservationManager {
         String movieTitle = selectedMovie.getTitle();
         String date = selectedMovie.getDates().get(selectedDateIndex).getDate();
         Reservation reservation = new Reservation(movieTitle, date, seatNumber);
-        CinemaReservationCLI.currentUser.getReservations().add(reservation);
+        currentUser.getReservations().add(reservation);
 
-        try {
-            List<User> users = UserManager.readUsersFromJSON();
-            for (int i = 0; i < users.size(); i++) {
-                if (users.get(i).getUsername().equals(CinemaReservationCLI.currentUser.getUsername())) {
-                    users.set(i, CinemaReservationCLI.currentUser);
-                    break;
-                }
-            }
-            UserManager.writeUsersToJSON(users);
-        } catch (IOException e) {
-            showMessage("An error occurred while trying to update user data. Error details: " + e.getMessage(), Ansi.Color.RED);
-        }
+        updateUsersJSON();
 
         showMessage("Reservation successful! Seat number " + seatNumber + " is reserved for you.", Ansi.Color.GREEN);
+        displayMainMenu();
     }
 
 
@@ -110,5 +102,101 @@ public class ReservationManager {
     private static int selectSeat() {
         showMessage("Please select a seat number (1-20): ", Ansi.Color.CYAN);
         return CinemaReservationCLI.getIntInput();
+    }
+
+    static void listReservations() throws IOException {
+        List<Reservation> userReservations = currentUser.getReservations();
+
+        if (userReservations.isEmpty()) {
+            showMessage("You don't have any reservations yet.", Ansi.Color.YELLOW);
+            displayReservationMenu();
+        } else {
+            showMessage("Your Reservations:", Ansi.Color.YELLOW);
+            for (int i = 0; i < userReservations.size(); i++) {
+                Reservation reservation = userReservations.get(i);
+                showMessage((i + 1) + ". Movie: " + reservation.getMovieTitle() +
+                        ", Date: " + reservation.getDate() +
+                        ", Seat Number: " + reservation.getSeatNumber(), Ansi.Color.YELLOW);
+            }
+
+            // Add go back to the end of the reservations list
+            int lastIndex = userReservations.size() + 1;
+            showMessage((lastIndex) + ". Go Back", Ansi.Color.YELLOW);
+
+            int choice = getIntInput();
+
+            if (choice == lastIndex) {
+                displayReservationMenu();
+            } else if (choice > 0 && choice <= userReservations.size()) {
+                reviewReservation(userReservations.get(choice - 1));
+            } else {
+                showMessage("Invalid option. Please choose again.", Ansi.Color.RED);
+                listReservations();
+            }
+        }
+    }
+
+    private static void reviewReservation(Reservation reservation) throws IOException {
+        showMessage("1. Add Review\n2. Edit Review\n3. Go Back", Ansi.Color.YELLOW);
+        int choice = CinemaReservationCLI.getIntInput();
+
+        switch (choice) {
+            case 1:
+                addReview(reservation);
+                break;
+            case 2:
+                editReview(reservation);
+                break;
+            case 3:
+                listReservations();
+                break;
+            default:
+                showMessage("Invalid option. Please choose again.", Ansi.Color.RED);
+                reviewReservation(reservation);
+                break;
+        }
+    }
+
+    private static void addReview(Reservation reservation) throws IOException {
+        showMessage("Enter your review for the reservation:", Ansi.Color.YELLOW);
+        String review = scanner.nextLine();
+
+        reservation.setReview(review);
+        updateUsersJSON(); // Save changes to users.json
+
+        showMessage("Review added successfully!", Ansi.Color.GREEN);
+        listReservations();
+    }
+
+    private static void editReview(Reservation reservation) throws IOException {
+        if (reservation.getReview() == null || reservation.getReview().isEmpty()) {
+            showMessage("You haven't written a review for this reservation yet.", Ansi.Color.YELLOW);
+            reviewReservation(reservation);
+        } else {
+            showMessage("Your current review: " + reservation.getReview(), Ansi.Color.YELLOW);
+            showMessage("Enter your updated review:", Ansi.Color.YELLOW);
+            String updatedReview = scanner.nextLine();
+
+            reservation.setReview(updatedReview);
+            updateUsersJSON(); // Save changes to users.json
+
+            showMessage("Review updated successfully!", Ansi.Color.GREEN);
+            listReservations();
+        }
+    }
+
+    private static void updateUsersJSON() {
+        try {
+            List<User> users = UserManager.readUsersFromJSON();
+            for (int i = 0; i < users.size(); i++) {
+                if (users.get(i).getUsername().equals(currentUser.getUsername())) {
+                    users.set(i, currentUser);
+                    break;
+                }
+            }
+            UserManager.writeUsersToJSON(users);
+        } catch (IOException e) {
+            showMessage("An error occurred while trying to update user data. Error details: " + e.getMessage(), Ansi.Color.RED);
+        }
     }
 }

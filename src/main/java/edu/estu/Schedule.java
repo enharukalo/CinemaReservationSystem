@@ -15,15 +15,8 @@ public class Schedule {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public List<Integer> getReservedSeats() {
         return reservedSeats;
     }
 
-    public void setReservedSeats(List<Integer> reservedSeats) {
-        this.reservedSeats = reservedSeats;
-    }
 }
