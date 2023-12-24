@@ -4,27 +4,15 @@
     "password": "enhar",
     "reservations": [
       {
-        "movieTitle": "The Shawshank Redemption",
-        "date": "03-01-2024",
-        "seatNumber": 2
-      },
-      {
-        "movieTitle": "The Matrix",
-        "date": "25-12-2023",
-        "seatNumber": 8
+        "movieTitle": "The Godfather",
+        "date": "04-01-2024",
+        "seatNumber": 1
       }
     ]
   },
   {
     "username": "enhar2",
     "password": "enhar2",
-    "reservations": [
-      {
-        "movieTitle": "The Matrix",
-        "date": "25-12-2023",
-        "seatNumber": 6,
-        "review": "It was nice movie."
-      }
-    ]
+    "reservations": []
   }
 ]
