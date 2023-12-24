@@ -1,0 +1,18 @@
+[
+  {
+    "username": "enhar",
+    "password": "enhar",
+    "reservations": [
+      {
+        "movieTitle": "The Matrix",
+        "date": "25-12-2023",
+        "seatNumber": 1
+      },
+      {
+        "movieTitle": "The Matrix",
+        "date": "25-12-2023",
+        "seatNumber": 3
+      }
+    ]
+  }
+]
