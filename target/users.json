@@ -17,6 +17,16 @@
         "movieTitle": "The Matrix",
         "date": "25-12-2023",
         "seatNumber": 4
+      },
+      {
+        "movieTitle": "The Shawshank Redemption",
+        "date": "04-01-2024",
+        "seatNumber": 3
+      },
+      {
+        "movieTitle": "The Shawshank Redemption",
+        "date": "04-01-2024",
+        "seatNumber": 1
       }
     ]
   }

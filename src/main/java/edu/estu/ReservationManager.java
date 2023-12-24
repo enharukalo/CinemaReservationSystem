@@ -73,7 +73,7 @@ public class ReservationManager {
         updateUsersJSON();
 
         showMessage("Reservation successful! Seat number " + seatNumber + " is reserved for you.", Ansi.Color.GREEN);
-        displayMainMenu();
+        displayReservationMenu();
     }
 
 
