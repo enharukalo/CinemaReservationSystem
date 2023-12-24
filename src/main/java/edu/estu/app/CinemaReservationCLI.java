@@ -16,6 +16,10 @@ import java.util.Scanner;
 
 public class CinemaReservationCLI {
 
+    private static final String USERS_TXT = "users.txt";
+    private static final String MOVIES_JSON = "movies.json";
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final Gson gson = new Gson();
 
     public static void main(String[] args) {
         AnsiConsole.systemInstall();
@@ -24,8 +28,6 @@ public class CinemaReservationCLI {
         System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("║        Welcome to the Cinema Reservation      ║").reset());
         System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("║                     System                    ║").reset());
         System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("╚═══════════════════════════════════════════════╝").reset());
-
-
 
         displayMainMenu();
         AnsiConsole.systemUninstall();
@@ -37,7 +39,6 @@ public class CinemaReservationCLI {
 
     private static void displayMainMenu() {
         showMessage("1. Register\n2. Login\n3. Exit", Ansi.Color.YELLOW);
-        Scanner scanner = new Scanner(System.in);
         int choice = scanner.nextInt();
         switch (choice) {
             case 1:
@@ -57,32 +58,48 @@ public class CinemaReservationCLI {
     }
 
     private static void register() {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your username: ");
         String username = scanner.next();
         System.out.print("Enter your password: ");
         String password = scanner.next();
 
         User newUser = new User(username, password);
+
+        // Check if user already exists
+        // If user exists, display error message and return to main menu
+        // If user does not exist, write user to file and display success message
+        // and return to main menu
+
         try {
-            writeUserToFile(newUser);
-            showMessage("Registration successful.", Ansi.Color.GREEN);
+            List<User> users = readUsersFromFile();
+            boolean userExists = false;
+            for (User user : users) {
+                if (user.getUsername().equals(username)) {
+                    showMessage("User already exists. Please choose another username.", Ansi.Color.RED);
+                    userExists = true;
+                    break;
+                }
+            }
+
+            if (!userExists) {
+                writeUserToFile(newUser);
+                showMessage("User registered successfully.", Ansi.Color.GREEN);
+            }
         } catch (IOException e) {
-            showMessage("An error occurred while registering. Please try again.", Ansi.Color.RED);
+            showMessage("An error occurred while registering. Please try again. Error details: " + e.getMessage(), Ansi.Color.RED);
         }
 
         displayMainMenu();
     }
 
     private static void login() {
-        Path usersFilePath = Paths.get("users.txt");
+        Path usersFilePath = Paths.get(USERS_TXT);
         if (!Files.exists(usersFilePath)) {
             showMessage("Users file not found. Please register first.", Ansi.Color.RED);
             displayMainMenu();
             return;
         }
 
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your username: ");
         String username = scanner.next();
         System.out.print("Enter your password: ");
@@ -110,7 +127,7 @@ public class CinemaReservationCLI {
     }
 
     private static void writeUserToFile(User user) throws IOException {
-        try (FileWriter fileWriter = new FileWriter("users.txt", true);
+        try (FileWriter fileWriter = new FileWriter(USERS_TXT, true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
              PrintWriter printWriter = new PrintWriter(bufferedWriter)) {
             printWriter.println(user.getUsername() + ":" + user.getPassword());
@@ -120,7 +137,7 @@ public class CinemaReservationCLI {
 
     private static List<User> readUsersFromFile() throws IOException {
         List<User> users = new ArrayList<>();
-        try (FileReader fileReader = new FileReader("users.txt");
+        try (FileReader fileReader = new FileReader(USERS_TXT);
              BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 
             String line;
@@ -146,9 +163,8 @@ public class CinemaReservationCLI {
         System.exit(0);
     }
 
-    private static void displayReservationMenu() throws FileNotFoundException, IOException {
+    private static void displayReservationMenu() throws IOException {
         showMessage("1. Make a reservation\n2. List reservations\n3. Cancel a reservation\n4. Exit", Ansi.Color.YELLOW);
-        Scanner scanner = new Scanner(System.in);
         int choice = scanner.nextInt();
         switch (choice) {
             case 1:
@@ -175,9 +191,9 @@ public class CinemaReservationCLI {
     }
 
     private static List<Movie> readMovies() throws FileNotFoundException {
-        Gson gson = new Gson();
-        TypeToken<List<Movie>> token = new TypeToken<>() {};
-        try (FileReader reader = new FileReader("movies.json")) {
+        TypeToken<List<Movie>> token = new TypeToken<>() {
+        };
+        try (FileReader reader = new FileReader(MOVIES_JSON)) {
             return gson.fromJson(reader, token.getType());
         } catch (IOException e) {
             throw new FileNotFoundException(e.getMessage());
@@ -187,10 +203,10 @@ public class CinemaReservationCLI {
     private static void writeMovies(List<Movie> movies) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(movies);
-        Files.writeString(Path.of("movies.json"), json);
+        Files.writeString(Path.of(MOVIES_JSON), json);
     }
 
-    private static void makeReservation() throws FileNotFoundException, IOException {
+    private static void makeReservation() throws IOException {
         List<Movie> movies = readMovies();
         Movie selectedMovie = selectMovie(movies);
         showMessage("You have selected: " + selectedMovie.getTitle(), Ansi.Color.GREEN);
@@ -220,8 +236,6 @@ public class CinemaReservationCLI {
 
 
     private static Movie selectMovie(List<Movie> movies) throws FileNotFoundException {
-        Scanner scanner = new Scanner(System.in);
-
         for (int i = 0; i < movies.size(); i++) {
             showMessage((i + 1) + ". " + movies.get(i).getTitle(), Ansi.Color.YELLOW);
         }
@@ -231,8 +245,6 @@ public class CinemaReservationCLI {
     }
 
     private static int selectDate(Movie movie) {
-        Scanner scanner = new Scanner(System.in);
-
         for (int i = 0; i < movie.getDates().size(); i++) {
             showMessage((i + 1) + ". " + movie.getDates().get(i).getDate(), Ansi.Color.YELLOW);
         }
@@ -242,8 +254,6 @@ public class CinemaReservationCLI {
     }
 
     private static int selectSeat() {
-        Scanner scanner = new Scanner(System.in);
-
         showMessage("Please select a seat number (1-20): ", Ansi.Color.CYAN);
         return scanner.nextInt();
     }
