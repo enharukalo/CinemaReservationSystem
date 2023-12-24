@@ -4,9 +4,9 @@ import java.util.List;
 
 public class Movie {
     private String title;
-    private List<MovieDate> dates;
+    private List<Schedule> dates;
 
-    public Movie(String title, List<MovieDate> dates) {
+    public Movie(String title, List<Schedule> dates) {
         this.title = title;
         this.dates = dates;
     }
@@ -19,11 +19,11 @@ public class Movie {
         this.title = title;
     }
 
-    public List<MovieDate> getDates() {
+    public List<Schedule> getDates() {
         return dates;
     }
 
-    public void setDates(List<MovieDate> dates) {
+    public void setDates(List<Schedule> dates) {
         this.dates = dates;
     }
 }

@@ -2,11 +2,11 @@ package edu.estu;
 
 import java.util.List;
 
-public class MovieDate {
+public class Schedule {
     private String date;
     private List<Integer> reservedSeats;
 
-    public MovieDate(String date, List<Integer> reservedSeats) {
+    public Schedule(String date, List<Integer> reservedSeats) {
         this.date = date;
         this.reservedSeats = reservedSeats;
     }
