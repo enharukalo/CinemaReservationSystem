@@ -48,7 +48,7 @@ public class CinemaReservationCLI {
     }
 
     static void displayReservationMenu() throws IOException {
-        showMessage("1. Make a reservation\n2. List reservations\n3. Cancel a reservation\n4. Exit", Ansi.Color.YELLOW);
+        showMessage("1. Make a reservation\n2. List reservations\n3. Exit", Ansi.Color.YELLOW);
         int choice = getIntInput();
         switch (choice) {
             case 1:
@@ -62,9 +62,6 @@ public class CinemaReservationCLI {
                 ReservationManager.listReservations();
                 break;
             case 3:
-                // cancelReservation();
-                break;
-            case 4:
                 exit();
                 break;
             default:
