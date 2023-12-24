@@ -11,11 +11,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Scanner;
 
 public class ReservationManager {
     private static final String MOVIES_JSON = "movies.json";
-    private static final Scanner scanner = new Scanner(System.in);
     private static final Gson gson = new Gson();
 
     private static List<Movie> readMovies() throws FileNotFoundException {
@@ -68,7 +66,7 @@ public class ReservationManager {
             CinemaReservationCLI.showMessage((i + 1) + ". " + movies.get(i).getTitle(), Ansi.Color.YELLOW);
         }
 
-        int movieNumber = scanner.nextInt();
+        int movieNumber = CinemaReservationCLI.getIntInput();
         return movies.get(movieNumber - 1);
     }
 
@@ -77,16 +75,16 @@ public class ReservationManager {
             CinemaReservationCLI.showMessage((i + 1) + ". " + movie.getDates().get(i).getDate(), Ansi.Color.YELLOW);
         }
 
-        int dateNumber = scanner.nextInt();
+        int dateNumber = CinemaReservationCLI.getIntInput();
         if (dateNumber < 1 || dateNumber > movie.getDates().size()) {
             CinemaReservationCLI.showMessage("Invalid date number. Please choose again.", Ansi.Color.RED);
-            dateNumber = scanner.nextInt();
+            dateNumber = CinemaReservationCLI.getIntInput();
         }
         return dateNumber - 1;
     }
 
     private static int selectSeat() {
         CinemaReservationCLI.showMessage("Please select a seat number (1-20): ", Ansi.Color.CYAN);
-        return scanner.nextInt();
+        return CinemaReservationCLI.getIntInput();
     }
 }

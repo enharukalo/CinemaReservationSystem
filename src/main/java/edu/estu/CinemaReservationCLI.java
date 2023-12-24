@@ -10,25 +10,25 @@ public class CinemaReservationCLI {
 
     private static final Scanner scanner = new Scanner(System.in);
 
+    public static void showMessage(String message, Ansi.Color color) {
+        System.out.println(Ansi.ansi().fg(color).a(message).reset());
+    }
+
     public static void main(String[] args) {
         AnsiConsole.systemInstall();
 
-        System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("╔═══════════════════════════════════════════════╗").reset());
-        System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("║        Welcome to the Cinema Reservation      ║").reset());
-        System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("║                     System                    ║").reset());
-        System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("╚═══════════════════════════════════════════════╝").reset());
+        showMessage("╔═══════════════════════════════════════════════╗", Ansi.Color.YELLOW);
+        showMessage("║        Welcome to the Cinema Reservation      ║", Ansi.Color.YELLOW);
+        showMessage("║                     System                    ║", Ansi.Color.YELLOW);
+        showMessage("╚═══════════════════════════════════════════════╝", Ansi.Color.YELLOW);
 
         displayMainMenu();
         AnsiConsole.systemUninstall();
     }
 
-    public static void showMessage(String message, Ansi.Color color) {
-        System.out.println(Ansi.ansi().fg(color).a(message).reset());
-    }
-
     static void displayMainMenu() {
         showMessage("1. Register\n2. Login\n3. Exit", Ansi.Color.YELLOW);
-        int choice = scanner.nextInt();
+        int choice = getIntInput();
         switch (choice) {
             case 1:
                 UserManager.register();
@@ -46,14 +46,9 @@ public class CinemaReservationCLI {
         }
     }
 
-    static void exit() {
-        showMessage("Goodbye!", Ansi.Color.GREEN);
-        System.exit(0);
-    }
-
     static void displayReservationMenu() throws IOException {
         showMessage("1. Make a reservation\n2. List reservations\n3. Cancel a reservation\n4. Exit", Ansi.Color.YELLOW);
-        int choice = scanner.nextInt();
+        int choice = getIntInput();
         switch (choice) {
             case 1:
                 try {
@@ -77,4 +72,20 @@ public class CinemaReservationCLI {
                 break;
         }
     }
+
+    static void exit() {
+        showMessage("Goodbye!", Ansi.Color.GREEN);
+        System.exit(0);
+    }
+
+    public static int getIntInput() {
+        try {
+            return scanner.nextInt();
+        } catch (Exception e) {
+            showMessage("Invalid input. Please enter a valid number.", Ansi.Color.RED);
+            scanner.nextLine();
+            return getIntInput();
+        }
+    }
+
 }
