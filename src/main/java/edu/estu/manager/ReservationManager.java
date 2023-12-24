@@ -1,8 +1,13 @@
-package edu.estu;
+package edu.estu.manager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import edu.estu.CinemaReservationCLI;
+import edu.estu.model.Movie;
+import edu.estu.model.Reservation;
+import edu.estu.model.Schedule;
+import edu.estu.model.User;
 import org.fusesource.jansi.Ansi;
 
 import java.io.FileNotFoundException;
@@ -22,8 +27,9 @@ public class ReservationManager {
     private static final Gson gson = new Gson();
     private static final Scanner scanner = new Scanner(System.in);
 
-    private static List<Movie> readMovies() throws FileNotFoundException {
+    private static List<Movie> readMovies() throws IOException {
         TypeToken<List<Movie>> token = new TypeToken<>() {};
+
         try (FileReader reader = new FileReader(MOVIES_JSON)) {
             List<Movie> movies = gson.fromJson(reader, token.getType());
 
@@ -38,8 +44,10 @@ public class ReservationManager {
                 }
             }
             return movies;
+        } catch (FileNotFoundException e) {
+            return Collections.emptyList();
         } catch (IOException e) {
-            throw new FileNotFoundException(e.getMessage());
+            throw new IOException(e.getMessage());
         }
     }
 
@@ -49,8 +57,16 @@ public class ReservationManager {
         Files.writeString(Path.of(MOVIES_JSON), json);
     }
 
-    static void makeReservation() throws IOException {
+    public static void makeReservation() throws IOException {
+        showMessage("Available movies:", Ansi.Color.YELLOW);
         List<Movie> movies = readMovies();
+
+        if (movies.isEmpty()) {
+            showMessage("Currently, there are no movies. Please come back later.", Ansi.Color.YELLOW);
+            displayReservationMenu();  // Or handle the situation accordingly
+            return;
+        }
+
         Movie selectedMovie = selectMovie(movies);
         showMessage("You have selected: " + selectedMovie.getTitle(), Ansi.Color.GREEN);
 
@@ -116,7 +132,7 @@ public class ReservationManager {
         return CinemaReservationCLI.getIntInput();
     }
 
-    static void listReservations() throws IOException {
+    public static void listReservations() throws IOException {
         List<Reservation> userReservations = currentUser.getReservations();
 
         if (userReservations.isEmpty()) {
@@ -225,6 +241,11 @@ public class ReservationManager {
             showMessage("Enter your updated review:", Ansi.Color.YELLOW);
             String updatedReview = scanner.nextLine();
 
+            if (updatedReview.isEmpty()) {
+                showMessage("Review update canceled.", Ansi.Color.YELLOW);
+                reviewReservation(reservation);
+            }
+
             reservation.setReview(updatedReview);
             updateUsersJSON(); // Save changes to users.json
 
@@ -234,11 +255,23 @@ public class ReservationManager {
     }
 
     private static void deleteReview(Reservation reservation) throws IOException {
-        reservation.setReview(null);
-        updateUsersJSON(); // Save changes to users.json
+        showMessage("Are you sure you want to delete this review?\n1. Yes\n2. No", Ansi.Color.YELLOW);
 
-        showMessage("Review deleted successfully!", Ansi.Color.GREEN);
-        listReservations();
+        int confirmationChoice = getIntInput();
+
+        if (confirmationChoice == 1) {
+            reservation.setReview(null);
+            updateUsersJSON(); // Save changes to users.json
+
+            showMessage("Review deleted successfully!", Ansi.Color.GREEN);
+            listReservations();
+        } else if (confirmationChoice == 2) {
+            showMessage("Review deletion canceled.", Ansi.Color.YELLOW);
+            listReservations();
+        } else {
+            showMessage("Invalid option. Please choose again.", Ansi.Color.RED);
+            deleteReview(reservation);
+        }
     }
 
     private static void deleteReservation(Reservation reservation) throws IOException {

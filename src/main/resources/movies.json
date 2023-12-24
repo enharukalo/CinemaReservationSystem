@@ -23,44 +23,44 @@
   {
     "title": "The Godfather",
     "dates": [
-      {
-        "date": "27-12-2023",
-        "reservedSeats": []
-      },
-      {
-        "date": "29-12-2023",
-        "reservedSeats": []
-      },
-      {
-        "date": "02-01-2024",
-        "reservedSeats": []
-      },
-      {
-        "date": "05-01-2024",
-        "reservedSeats": []
-      }
-    ]
+        {
+            "date": "27-12-2023",
+            "reservedSeats": []
+        },
+        {
+            "date": "29-12-2023",
+            "reservedSeats": []
+        },
+        {
+            "date": "02-01-2024",
+            "reservedSeats": []
+        },
+        {
+            "date": "05-01-2024",
+            "reservedSeats": []
+        }
+        ]
   },
   {
     "title": "The Shawshank Redemption",
     "dates":[
-      {
-        "date": "28-12-2023",
-        "reservedSeats": []
-      },
-      {
-        "date": "30-12-2023",
-        "reservedSeats": []
-      },
-      {
-        "date": "03-01-2024",
-        "reservedSeats": []
-      },
-      {
-        "date": "06-01-2024",
-        "reservedSeats": []
-      }
-    ]
+        {
+            "date": "28-12-2023",
+            "reservedSeats": []
+        },
+        {
+            "date": "30-12-2023",
+            "reservedSeats": []
+        },
+        {
+            "date": "03-01-2024",
+            "reservedSeats": []
+        },
+        {
+            "date": "06-01-2024",
+            "reservedSeats": []
+        }
+        ]
   },
   {
     "title": "The Dark Knight",

@@ -1,9 +1,9 @@
-edu\estu\ReservationManager.class
+edu\estu\manager\UserManager.class
+edu\estu\model\Schedule.class
 edu\estu\CinemaReservationCLI.class
-edu\estu\UserManager$1.class
-edu\estu\ReservationManager$1.class
-edu\estu\Reservation.class
-edu\estu\UserManager.class
-edu\estu\Movie.class
-edu\estu\User.class
-edu\estu\Schedule.class
+edu\estu\model\Reservation.class
+edu\estu\manager\UserManager$1.class
+edu\estu\model\Movie.class
+edu\estu\manager\ReservationManager$1.class
+edu\estu\manager\ReservationManager.class
+edu\estu\model\User.class

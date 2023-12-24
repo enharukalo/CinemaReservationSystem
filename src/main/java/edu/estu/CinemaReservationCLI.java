@@ -1,5 +1,8 @@
 package edu.estu;
 
+import edu.estu.manager.ReservationManager;
+import edu.estu.manager.UserManager;
+import edu.estu.model.User;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -27,15 +30,15 @@ public class CinemaReservationCLI {
         AnsiConsole.systemUninstall();
     }
 
-    static void displayMainMenu() {
-        showMessage("1. Register\n2. Login\n3. Exit", Ansi.Color.YELLOW);
+    public static void displayMainMenu() {
+        showMessage("1. Login\n2. Register\n3. Exit", Ansi.Color.YELLOW);
         int choice = getIntInput();
         switch (choice) {
             case 1:
-                UserManager.register();
+                UserManager.login();
                 break;
             case 2:
-                UserManager.login();
+                UserManager.register();
                 break;
             case 3:
                 exit();
@@ -47,7 +50,7 @@ public class CinemaReservationCLI {
         }
     }
 
-    static void displayReservationMenu() throws IOException {
+    public static void displayReservationMenu() throws IOException {
         showMessage("1. Make a reservation\n2. List reservations\n3. Exit", Ansi.Color.YELLOW);
         int choice = getIntInput();
         switch (choice) {
