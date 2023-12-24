@@ -1,5 +1,6 @@
 edu\estu\ReservationManager.class
 edu\estu\CinemaReservationCLI.class
+edu\estu\UserManager$1.class
 edu\estu\ReservationManager$1.class
 edu\estu\Reservation.class
 edu\estu\UserManager.class

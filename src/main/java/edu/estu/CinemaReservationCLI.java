@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class CinemaReservationCLI {
 
     private static final Scanner scanner = new Scanner(System.in);
+    public static User currentUser = null;
 
     public static void showMessage(String message, Ansi.Color color) {
         System.out.println(Ansi.ansi().fg(color).a(message).reset());
