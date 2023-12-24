@@ -149,7 +149,7 @@ public class ReservationManager {
 
         if (reservation.getReview() != null && !reservation.getReview().isEmpty()) {
             showMessage("Your review: " + reservation.getReview(), Ansi.Color.YELLOW);
-            showMessage("1. Edit Review\n2. Delete Review\n3. Go Back", Ansi.Color.YELLOW);
+            showMessage("1. Edit Review\n2. Delete Review\n3. Delete Reservation\n4. Go Back", Ansi.Color.YELLOW);
 
             int choice = CinemaReservationCLI.getIntInput();
 
@@ -161,6 +161,9 @@ public class ReservationManager {
                     deleteReview(reservation);
                     break;
                 case 3:
+                    deleteReservation(reservation);
+                    break;
+                case 4:
                     listReservations();
                     break;
                 default:
@@ -169,15 +172,17 @@ public class ReservationManager {
                     break;
             }
         } else {
-            showMessage("1. Add Review\n2. Go Back", Ansi.Color.YELLOW);
+            showMessage("1. Add Review\n2. Delete Reservation\n3. Go Back", Ansi.Color.YELLOW);
 
             int choice = CinemaReservationCLI.getIntInput();
 
             switch (choice) {
                 case 1:
                     addReview(reservation);
-                    break;
                 case 2:
+                    deleteReservation(reservation);
+                    break;
+                case 3:
                     listReservations();
                     break;
                 default:
@@ -224,6 +229,26 @@ public class ReservationManager {
         listReservations();
     }
 
+    private static void deleteReservation(Reservation reservation) throws IOException {
+        showMessage("Are you sure you want to delete this reservation?\n1. Yes\n2. No", Ansi.Color.YELLOW);
+
+        int confirmationChoice = getIntInput();
+
+        if (confirmationChoice == 1) {
+            List<Reservation> userReservations = currentUser.getReservations();
+            userReservations.remove(reservation);
+            updateUsersJSON(); // Save changes to users.json
+
+            showMessage("Reservation deleted successfully!", Ansi.Color.GREEN);
+            listReservations();
+        } else if (confirmationChoice == 2) {
+            showMessage("Reservation deletion canceled.", Ansi.Color.YELLOW);
+            listReservations();
+        } else {
+            showMessage("Invalid option. Please choose again.", Ansi.Color.RED);
+            deleteReservation(reservation);
+        }
+    }
 
     private static void updateUsersJSON() {
         try {
