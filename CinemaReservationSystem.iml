@@ -12,6 +12,5 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: org.fusesource.jansi:jansi:2.4.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.10.1" level="project" />
-    <orderEntry type="library" name="Maven: com.github.lalyos:jfiglet:0.0.3" level="project" />
   </component>
 </module>
