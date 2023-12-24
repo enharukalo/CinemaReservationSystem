@@ -1,4 +1,4 @@
-package edu.estu.app;
+package edu.estu;
 
 public class Reservation {
     private String movieTitle;

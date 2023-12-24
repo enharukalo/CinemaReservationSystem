@@ -1,4 +1,4 @@
-package edu.estu.app;
+package edu.estu;
 
 import java.util.List;
 
@@ -15,12 +15,12 @@ public class Movie {
         return title;
     }
 
-    public List<MovieDate> getDates() {
-        return dates;
-    }
-
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<MovieDate> getDates() {
+        return dates;
     }
 
     public void setDates(List<MovieDate> dates) {

@@ -1,4 +1,4 @@
-package edu.estu.app;
+package edu.estu;
 
 import java.util.List;
 
@@ -15,12 +15,12 @@ public class MovieDate {
         return date;
     }
 
-    public List<Integer> getReservedSeats() {
-        return reservedSeats;
-    }
-
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public List<Integer> getReservedSeats() {
+        return reservedSeats;
     }
 
     public void setReservedSeats(List<Integer> reservedSeats) {
