@@ -143,6 +143,7 @@ public class ReservationManager {
 
     private static int selectSeat() throws IOException {
         showMessage("Please select a seat number (1-20): ", Ansi.Color.CYAN);
+        showMessage("Enter 0 to go back", Ansi.Color.CYAN);
         int seatNumber = CinemaReservationCLI.getIntInput();
 
         if (seatNumber == 0) {
