@@ -272,7 +272,7 @@ public class ReservationManager {
     }
 
     private static void deleteReview(Reservation reservation) throws IOException {
-        showMessage("Are you sure you want to delete this review?\n1. Yes\n2. No", Ansi.Color.CYAN);
+        showMessage("Are you sure you want to delete this review?\n1. Yes\n2. No", Ansi.Color.YELLOW);
 
         int confirmationChoice = getIntInput();
 
