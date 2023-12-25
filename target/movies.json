@@ -4,19 +4,45 @@
     "dates": [
       {
         "date": "25-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          5,
+          7,
+          12,
+          17,
+          18,
+          19,
+          20
+        ]
       },
       {
         "date": "26-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          7,
+          9,
+          11,
+          15,
+          20
+        ]
       },
       {
         "date": "01-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          4,
+          5,
+          8,
+          9,
+          17,
+          20
+        ]
       },
       {
         "date": "02-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          3,
+          10,
+          15,
+          19
+        ]
       }
     ]
   },
@@ -25,40 +51,90 @@
     "dates": [
       {
         "date": "27-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          1,
+          4,
+          7,
+          8,
+          14
+        ]
       },
       {
         "date": "29-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          4,
+          4,
+          10,
+          11,
+          12,
+          13
+        ]
       },
       {
         "date": "02-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          2,
+          5,
+          6,
+          10,
+          12,
+          15,
+          20
+        ]
       },
       {
         "date": "05-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          3,
+          4,
+          9,
+          16,
+          17,
+          19
+        ]
       }
     ]
   },
   {
     "title": "The Shawshank Redemption",
-    "dates":[
+    "dates": [
       {
         "date": "28-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          2,
+          3,
+          9,
+          12
+        ]
       },
       {
         "date": "30-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          4,
+          19,
+          20
+        ]
       },
       {
         "date": "03-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          1,
+          3,
+          11,
+          12,
+          13,
+          17,
+          18
+        ]
       },
       {
         "date": "06-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          4,
+          16,
+          18,
+          19
+        ]
       }
     ]
   },
@@ -67,19 +143,43 @@
     "dates": [
       {
         "date": "25-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          2,
+          4,
+          6,
+          7,
+          10,
+          18
+        ]
       },
       {
         "date": "27-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          4,
+          6,
+          12,
+          14,
+          15
+        ]
       },
       {
         "date": "01-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          1,
+          2,
+          8,
+          13,
+          19
+        ]
       },
       {
         "date": "03-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          1,
+          10,
+          15,
+          18
+        ]
       }
     ]
   },
@@ -88,19 +188,42 @@
     "dates": [
       {
         "date": "26-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          6,
+          9,
+          10,
+          18,
+          19
+        ]
       },
       {
         "date": "28-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          1,
+          6,
+          12,
+          18,
+          20
+        ]
       },
       {
         "date": "02-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          6,
+          8,
+          10,
+          19
+        ]
       },
       {
         "date": "04-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          1,
+          4,
+          5,
+          13,
+          19
+        ]
       }
     ]
   },
@@ -109,19 +232,43 @@
     "dates": [
       {
         "date": "27-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          2,
+          6,
+          9,
+          13
+        ]
       },
       {
         "date": "29-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          9,
+          12,
+          15,
+          17,
+          18,
+          20
+        ]
       },
       {
         "date": "03-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          2,
+          5,
+          6,
+          13,
+          15,
+          17
+        ]
       },
       {
         "date": "05-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          10,
+          16,
+          18,
+          19
+        ]
       }
     ]
   },
@@ -130,19 +277,38 @@
     "dates": [
       {
         "date": "28-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          6,
+          9,
+          16,
+          19
+        ]
       },
       {
         "date": "30-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          3,
+          7,
+          13,
+          16
+        ]
       },
       {
         "date": "04-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          4,
+          10
+        ]
       },
       {
         "date": "06-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          4,
+          10,
+          13,
+          15,
+          19
+        ]
       }
     ]
   },
@@ -151,19 +317,36 @@
     "dates": [
       {
         "date": "25-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          6,
+          11,
+          14
+        ]
       },
       {
         "date": "27-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          4,
+          6,
+          16,
+          20
+        ]
       },
       {
         "date": "01-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          11,
+          12
+        ]
       },
       {
         "date": "03-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          1,
+          9,
+          15,
+          17
+        ]
       }
     ]
   },
@@ -172,19 +355,43 @@
     "dates": [
       {
         "date": "26-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          3,
+          7,
+          10,
+          12,
+          14,
+          16,
+          18
+        ]
       },
       {
         "date": "28-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          1,
+          3,
+          5,
+          6,
+          11
+        ]
       },
       {
         "date": "02-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          2,
+          12,
+          14,
+          19
+        ]
       },
       {
         "date": "04-01-2024",
-        "reservedSeats": []
+        "reservedSeats": [
+          1,
+          11,
+          14,
+          16
+        ]
       }
     ]
   },
@@ -193,11 +400,21 @@
     "dates": [
       {
         "date": "27-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          6,
+          10,
+          15,
+          18
+        ]
       },
       {
         "date": "29-12-2023",
-        "reservedSeats": []
+        "reservedSeats": [
+          4,
+          13,
+          14,
+          16
+        ]
       }
     ]
   }
