@@ -78,15 +78,6 @@ public class ReservationManager {
 
         int seatNumber = selectSeat();
 
-        if (seatNumber == 0) {
-            displayReservationMenu();
-        }
-
-        while (seatNumber < 1 || seatNumber > 20) {
-            showMessage("Invalid seat number. Please choose again.", Ansi.Color.RED);
-            seatNumber = selectSeat();
-        }
-
         while (reservedSeats.contains(seatNumber)) {
             showMessage("Seat number " + seatNumber + " is already reserved. Please choose another seat.", Ansi.Color.RED);
             seatNumber = selectSeat();
@@ -117,6 +108,11 @@ public class ReservationManager {
 
         int movieNumber = CinemaReservationCLI.getIntInput();
 
+        // Allow the user to go back to the previous menu
+        if (movieNumber == 0) {
+            displayReservationMenu();
+        }
+
         while (movieNumber < 1 || movieNumber > movies.size()) {
             showMessage("Invalid movie number. Please choose again.", Ansi.Color.RED);
             movieNumber = CinemaReservationCLI.getIntInput();
@@ -125,12 +121,17 @@ public class ReservationManager {
         return movies.get(movieNumber - 1);
     }
 
-    private static int selectDate(Movie movie) {
+    private static int selectDate(Movie movie) throws IOException {
         for (int i = 0; i < movie.getDates().size(); i++) {
             showMessage((i + 1) + ". " + movie.getDates().get(i).getDate(), Ansi.Color.YELLOW);
         }
 
         int dateNumber = CinemaReservationCLI.getIntInput();
+
+        // Allow the user to go back to the previous menu
+        if (dateNumber == 0) {
+            displayReservationMenu();
+        }
 
         while (dateNumber < 1 || dateNumber > movie.getDates().size()) {
             showMessage("Invalid date number. Please choose again.", Ansi.Color.RED);
@@ -140,9 +141,20 @@ public class ReservationManager {
         return dateNumber - 1;
     }
 
-    private static int selectSeat() {
+    private static int selectSeat() throws IOException {
         showMessage("Please select a seat number (1-20): ", Ansi.Color.CYAN);
-        return CinemaReservationCLI.getIntInput();
+        int seatNumber = CinemaReservationCLI.getIntInput();
+
+        if (seatNumber == 0) {
+            displayReservationMenu();
+        }
+
+        while (seatNumber < 1 || seatNumber > 20) {
+            showMessage("Invalid seat number. Please choose again.", Ansi.Color.RED);
+            seatNumber = selectSeat();
+        }
+
+        return seatNumber;
     }
 
     public static void listReservations() throws IOException {
