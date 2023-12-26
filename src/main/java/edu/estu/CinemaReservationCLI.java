@@ -1,5 +1,7 @@
 package edu.estu;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import edu.estu.manager.ReservationManager;
 import edu.estu.manager.UserManager;
 import edu.estu.model.User;
@@ -12,6 +14,9 @@ import java.util.Scanner;
 public class CinemaReservationCLI {
 
     private static final Scanner scanner = new Scanner(System.in);
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final UserManager userManager = new UserManager(scanner, gson);
+    private static final ReservationManager reservationManager = new ReservationManager(userManager, scanner, gson);
     public static User currentUser = null;
 
     public static void showMessage(String message, Ansi.Color color) {
@@ -35,10 +40,10 @@ public class CinemaReservationCLI {
         int choice = getIntInput();
         switch (choice) {
             case 1:
-                UserManager.login();
+                userManager.login();
                 break;
             case 2:
-                UserManager.register();
+                userManager.register();
                 break;
             case 3:
                 exit();
@@ -56,13 +61,13 @@ public class CinemaReservationCLI {
         switch (choice) {
             case 1:
                 try {
-                    ReservationManager.makeReservation();
+                    reservationManager.makeReservation();
                 } catch (IOException e) {
                     showMessage("An error occurred while trying to make the reservation. Error details: " + e.getMessage(), Ansi.Color.RED);
                 }
                 break;
             case 2:
-                ReservationManager.listReservations();
+                reservationManager.listReservations();
                 break;
             case 3:
                 exit();
@@ -81,7 +86,9 @@ public class CinemaReservationCLI {
 
     public static int getIntInput() {
         try {
-            return scanner.nextInt();
+            int input = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+            return input;
         } catch (Exception e) {
             showMessage("Invalid input. Please enter a valid number.", Ansi.Color.RED);
             scanner.nextLine();

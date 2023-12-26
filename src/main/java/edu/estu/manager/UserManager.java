@@ -22,11 +22,16 @@ import static edu.estu.CinemaReservationCLI.showMessage;
 
 public class UserManager {
 
-    private static final String USERS_JSON = "users.json";
-    private static final Scanner scanner = new Scanner(System.in);
-    private static final Gson gson = new Gson();
+    static String USERS_JSON = "users.json";
+    private final Scanner scanner;
+    private final Gson gson;
 
-    public static void register() {
+    public UserManager(Scanner scanner, Gson gson) {
+        this.scanner = scanner;
+        this.gson = gson;
+    }
+
+    public void register() {
         System.out.print("Enter your username: ");
         String username = scanner.next();
         System.out.print("Enter your password: ");
@@ -57,7 +62,7 @@ public class UserManager {
         CinemaReservationCLI.displayMainMenu();
     }
 
-    public static void login() {
+    public void login() {
         Path usersFilePath = Paths.get(USERS_JSON);
         if (!Files.exists(usersFilePath)) {
             showMessage("Users file not found. Please register first.", Ansi.Color.RED);
@@ -92,7 +97,7 @@ public class UserManager {
         }
     }
 
-    static List<User> readUsersFromJSON() throws IOException {
+    List<User> readUsersFromJSON() throws IOException {
         File jsonFile = new File(USERS_JSON);
         if (!jsonFile.exists() || jsonFile.length() == 0) {
             return new ArrayList<>(); // Return an empty list if the file doesn't exist or is empty
@@ -108,7 +113,7 @@ public class UserManager {
         }
     }
 
-    static void writeUsersToJSON(List<User> users) throws IOException {
+    void writeUsersToJSON(List<User> users) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(users);
         Files.writeString(Path.of(USERS_JSON), json);

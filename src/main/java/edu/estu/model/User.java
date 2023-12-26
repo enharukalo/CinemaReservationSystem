@@ -14,6 +14,12 @@ public class User {
         this.reservations = new ArrayList<>();
     }
 
+    public User(String username, String password, List<Reservation> reservations) {
+        this.username = username;
+        this.password = password;
+        this.reservations = reservations;
+    }
+
     public String getUsername() {
         return username;
     }
