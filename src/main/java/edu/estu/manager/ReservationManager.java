@@ -73,7 +73,7 @@ public class ReservationManager {
 
         if (movies.isEmpty()) {
             showMessage("Currently, there are no movies. Please come back later.", Ansi.Color.RED);
-            displayReservationMenu();  // Or handle the situation accordingly
+            displayReservationMenu();
             return;
         }
 
@@ -109,7 +109,6 @@ public class ReservationManager {
         displayReservationMenu();
     }
 
-
     private Movie selectMovie(List<Movie> movies) throws IOException {
         for (int i = 0; i < movies.size(); i++) {
             showMessage((i + 1) + ". " + movies.get(i).getTitle(), Ansi.Color.YELLOW);
@@ -122,6 +121,7 @@ public class ReservationManager {
             displayReservationMenu();
         }
 
+        // Check if the user entered a valid movie number
         while (movieNumber < 1 || movieNumber > movies.size()) {
             showMessage("Invalid movie number. Please choose again.", Ansi.Color.RED);
             movieNumber = CinemaReservationCLI.getIntInput();
@@ -134,7 +134,6 @@ public class ReservationManager {
         for (int i = 0; i < movie.getDates().size(); i++) {
             showMessage((i + 1) + ". " + movie.getDates().get(i).getDate(), Ansi.Color.YELLOW);
         }
-
         int dateNumber = CinemaReservationCLI.getIntInput();
 
         // Allow the user to go back to the previous menu
@@ -142,6 +141,7 @@ public class ReservationManager {
             displayReservationMenu();
         }
 
+        // Check if the user entered a valid date number
         while (dateNumber < 1 || dateNumber > movie.getDates().size()) {
             showMessage("Invalid date number. Please choose again.", Ansi.Color.RED);
             dateNumber = CinemaReservationCLI.getIntInput();
@@ -155,10 +155,12 @@ public class ReservationManager {
         showMessage("Enter 0 to go back", Ansi.Color.CYAN);
         int seatNumber = CinemaReservationCLI.getIntInput();
 
+        // Allow the user to go back to the previous menu
         if (seatNumber == 0) {
             displayReservationMenu();
         }
 
+        // Check if the user entered a valid seat number
         while (seatNumber < 1 || seatNumber > 20) {
             showMessage("Invalid seat number. Please choose again.", Ansi.Color.RED);
             seatNumber = selectSeat();
@@ -298,16 +300,15 @@ public class ReservationManager {
 
         int confirmationChoice = getIntInput();
 
-        if (confirmationChoice == 1) {
+        if (confirmationChoice == 1) { // Delete review
             reservation.setReview(null);
             updateUsersJSON(currentUser); // Save changes to users.json
-
             showMessage("Review deleted successfully!", Ansi.Color.GREEN);
             listReservations();
-        } else if (confirmationChoice == 2) {
+        } else if (confirmationChoice == 2) { // Cancel deletion
             showMessage("Review deletion canceled.", Ansi.Color.RED);
             listReservations();
-        } else {
+        } else { // Invalid option
             showMessage("Invalid option. Please choose again.", Ansi.Color.RED);
             deleteReview(reservation);
         }
@@ -318,7 +319,7 @@ public class ReservationManager {
 
         int confirmationChoice = getIntInput();
 
-        if (confirmationChoice == 1) {
+        if (confirmationChoice == 1) { // Delete reservation
             List<Reservation> userReservations = currentUser.getReservations();
             userReservations.remove(reservation);
 
@@ -338,17 +339,17 @@ public class ReservationManager {
 
             showMessage("Reservation deleted successfully!", Ansi.Color.GREEN);
             listReservations();
-        } else if (confirmationChoice == 2) {
+        } else if (confirmationChoice == 2) { // Cancel deletion
             showMessage("Reservation deletion canceled.", Ansi.Color.RED);
             listReservations();
-        } else {
+        } else { // Invalid option
             showMessage("Invalid option. Please choose again.", Ansi.Color.RED);
             deleteReservation(reservation);
         }
     }
 
     private void updateUsersJSON(User currentUser) {
-        try {
+        try { // Update the user's reservations in users.json
             List<User> users = userManager.readUsersFromJSON();
             for (int i = 0; i < users.size(); i++) {
                 if (users.get(i).getUsername().equals(currentUser.getUsername())) {
