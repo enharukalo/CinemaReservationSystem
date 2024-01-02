@@ -10,6 +10,10 @@ This is a console-based Cinema Reservation System implemented in Java. The appli
 - Colored console output for an enhanced user interface
 - File-based data storage using JSON
 
+## Releases
+
+Check out the [Releases](https://github.com/enharukalo/cinemareservationsystem/releases) page for the latest updates and version history.
+
 ## Prerequisites
 
 - Java Development Kit (JDK)
